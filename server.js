@@ -1,45 +1,19 @@
 import express from "express"
-
-const posts = [
-    {
-        id: 1,
-        descricao: "Uma foto teste",
-        imagem: "https://placecats.com/millie/300/150"
-    },
-    {
-        id: 2,
-        descricao: "Um gato preguiçoso",
-        imagem: "https://placecats.com/millie/300/150"
-    },
-    {
-        id: 3,
-        descricao: "Paisagem montanhosa",
-        imagem: "https://placecats.com/millie/300/150"
-    },
-    {
-        id: 4,
-        descricao: "Cachorro brincando",
-        imagem: "https://placecats.com/millie/300/150"
-    },
-    {
-        id: 5,
-        descricao: "Comida deliciosa",
-        imagem: "https://placecats.com/millie/300/150"
-    }
-];
+import routes from "./src/routes/postsRoutes.js"
 
 const app = express()
-app.use(express.json())
+routes(app)
 
-app.listen(3000, () => {
+app.listen(3000, () => {                         // Inicia o servidor na porta 3000 
 	console.log("Servidor escutando...")
 })
 
-app.get("/posts", (req,res) => {
-	res.status(200).json(posts)
+app.get("/posts", async (req,res) => {          // Rota para buscar todos os posts//await precisa do async
+    const posts = await getTodosPosts()         // chama a função para buscar todos os posts
+	res.status(200).json(posts)                 // Envia uma resposta http com status 200 (ok) e os posts no formato JSON na porta 2000
 })
 
-function buscarPostPorID(id) {
+/*function buscarPostPorID(id) {
     return posts.findIndex((post) => {
         return post.id === Number(id)
     })
@@ -48,4 +22,4 @@ function buscarPostPorID(id) {
 app.get("/posts/:id", (req,res) => {
 	const index = buscarPostPorID(req.params.id)
     res.status(200).json(posts[index])
-})
+})*/
